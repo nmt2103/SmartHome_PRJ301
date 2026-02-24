@@ -15,7 +15,7 @@ INSERT INTO HOME (ID, CODE, NAME, ADDRESS, STATUS, CREATE_AT) VALUES
 (1, 'H001', N'Nha Chinh', N'123 Le Loi, Quan 1, TP.HCM', N'ACTIVE', GETDATE()),
 (2, 'H002', N'Nha Nghi Duong', N'45 Tran Phu, Nha Trang', N'ACTIVE', GETDATE()),
 (3, 'H003', N'Nha Tro Sinh Vien', N'12 Vo Van Kiet, Can Tho', N'ACTIVE', GETDATE()),
-(4, 'H003', N'Chung Cu Mini', N'78 Nguyen Hue, Đa Nang', N'INACTIVE', GETDATE());
+(4, 'H004', N'Chung Cu Mini', N'78 Nguyen Hue, Đa Nang', N'INACTIVE', GETDATE());
 
 CREATE TABLE USERS (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
