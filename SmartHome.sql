@@ -140,7 +140,7 @@ CREATE TABLE ALERTACTION (
   CONSTRAINT FK_ALERT_ACTION FOREIGN KEY (ALERT_ID) REFERENCES ALERT(ID)
 )
 
-INSERT INTO AlertAction (ALERT_ID, USER_ID, TYPE, NOTE, ACTION_TS) VALUES
+INSERT INTO ALERTACTION(ALERT_ID, USER_ID, TYPE, NOTE, ACTION_TS) VALUES
   -- 1. Người dùng (VD: Home Owner - user_id = 2) ghi nhận (Ack) một cảnh báo an ninh (VD: alert_id = 1 là cửa mở quá lâu)
   (1, 2, 'Ack', N'Notification read, checking camera.', '2023-10-26 08:00:00'),
   -- 2. Người dùng thêm bình luận (Comment) để cập nhật tình trạng xử lý cho cảnh báo đó
