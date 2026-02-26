@@ -11,11 +11,11 @@ CREATE TABLE HOME (
   CREATE_AT DATETIME
 )
 
-INSERT INTO HOME (ID, CODE, NAME, ADDRESS, STATUS, CREATE_AT) VALUES
-(1, 'H001', N'Nha Chinh', N'123 Le Loi, Quan 1, TP.HCM', N'ACTIVE', GETDATE()),
-(2, 'H002', N'Nha Nghi Duong', N'45 Tran Phu, Nha Trang', N'ACTIVE', GETDATE()),
-(3, 'H003', N'Nha Tro Sinh Vien', N'12 Vo Van Kiet, Can Tho', N'ACTIVE', GETDATE()),
-(4, 'H003', N'Chung Cu Mini', N'78 Nguyen Hue, Đa Nang', N'INACTIVE', GETDATE());
+INSERT INTO HOME (CODE, NAME, ADDRESS, STATUS, CREATE_AT) VALUES
+('H001', N'Nha Chinh', N'123 Le Loi, Quan 1, TP.HCM', N'ACTIVE', GETDATE()),
+('H002', N'Nha Nghi Duong', N'45 Tran Phu, Nha Trang', N'ACTIVE', GETDATE()),
+('H003', N'Nha Tro Sinh Vien', N'12 Vo Van Kiet, Can Tho', N'ACTIVE', GETDATE()),
+('H004', N'Chung Cu Mini', N'78 Nguyen Hue, Đa Nang', N'INACTIVE', GETDATE());
 
 CREATE TABLE USERS (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -27,11 +27,11 @@ CREATE TABLE USERS (
   CREATE_AT DATETIME
 )
 
-INSERT INTO USERS (ID, USERNAME, PASSWORD, FULL_NAME, EMAIL, ROLE, CREATE_AT) VALUES
-(1, N'admin', '123456', N'Le Van Thanh Nhan', 'Nhan@gmail.com', N'ADMIN', GETDATE()),
-(2, N'user01', '123456', N'Tran Thi A', 'A@gmail.com', N'USER', GETDATE()),
-(3, N'user02', '123456', N'Nguyen Van B', 'B@gmail.com', N'USER', GETDATE()),
-(4, N'manager01', '123456', N'Pham Thi C', 'C@gmail.com', N'MANAGER', GETDATE());
+INSERT INTO USERS (USERNAME, PASSWORD, FULL_NAME, EMAIL, ROLE, CREATE_AT) VALUES
+(N'admin', '123456', N'Le Van Thanh Nhan', 'Nhan@gmail.com', N'ADMIN', GETDATE()),
+(N'user01', '123456', N'Tran Thi A', 'A@gmail.com', N'USER', GETDATE()),
+(N'user02', '123456', N'Nguyen Van B', 'B@gmail.com', N'USER', GETDATE()),
+(N'manager01', '123456', N'Pham Thi C', 'C@gmail.com', N'MANAGER', GETDATE());
 
 CREATE TABLE HOMEMODE (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -43,12 +43,12 @@ CREATE TABLE HOMEMODE (
   CONSTRAINT FK_HOME_MODE FOREIGN KEY (HOME_ID) REFERENCES HOME(ID)
 )
 
-INSERT INTO HOMEMODE (ID, NAME, ACTIVE_FROM, ACTIVE_TO, IS_ACTIVE, HOME_ID) VALUES
-(1, N'Morning Mode', '06:00:00', '09:00:00', 1, 3),
-(2, N'Night Mode', '22:00:00', '06:00:00', 0, 4),
-(3, N'Work Mode', '08:00:00', '17:00:00', 0, 1),
-(4, N'Sleep Mode', '23:00:00', '07:00:00', 1, 3),
-(5, N'Party Mode', '18:00:00', '23:59:00', 1, 2);
+INSERT INTO HOMEMODE (NAME, ACTIVE_FROM, ACTIVE_TO, IS_ACTIVE, HOME_ID) VALUES
+(N'Morning Mode', '06:00:00', '09:00:00', 1, 5),
+(N'Night Mode', '22:00:00', '06:00:00', 0, 6),
+(N'Work Mode', '08:00:00', '17:00:00', 0, 7),
+(N'Sleep Mode', '23:00:00', '07:00:00', 1, 8),
+(N'Party Mode', '18:00:00', '23:59:00', 1, 5);
 
 CREATE TABLE ROOM (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -60,10 +60,11 @@ CREATE TABLE ROOM (
   CONSTRAINT FK_HOME_ROOM FOREIGN KEY (HOME_ID) REFERENCES HOME(ID)
 )
 
-INSERT INTO ROOM(ID, NAME, FLOOR, TYPE, STATUS, HOME_ID) VALUES (1, 'Phong Ngu', 1, 'BedRoom', 'Dang Hoat Dong', 1)
-INSERT INTO ROOM(ID, NAME, FLOOR, TYPE, STATUS, HOME_ID) VALUES (2, 'Phong Ngu', 1, 'BedRoom', 'Ngung Hoat Dong', 1)
-INSERT INTO ROOM(ID, NAME, FLOOR, TYPE, STATUS, HOME_ID) VALUES (3, 'Phong Khach', 0, 'Living Room', 'Dang Hoat Dong', 2) 
-INSERT INTO ROOM(ID, NAME, FLOOR, TYPE, STATUS, HOME_ID) VALUES (4, 'Phong An', 0, 'Kitchen', 'Ngung Hoat Dong', 3)
+INSERT INTO ROOM(NAME, FLOOR, TYPE, STATUS, HOME_ID) VALUES
+('Phong Ngu', 1, 'BedRoom', 'Dang Hoat Dong', 5),
+('Phong Ngu', 1, 'BedRoom', 'Ngung Hoat Dong', 5),
+('Phong Khach', 0, 'Living Room', 'Dang Hoat Dong', 6), 
+('Phong An', 0, 'Kitchen', 'Ngung Hoat Dong', 8);
 
 CREATE TABLE DEVICE (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -76,12 +77,13 @@ CREATE TABLE DEVICE (
   CONSTRAINT FK_ROOM_DEVICE FOREIGN KEY (ROOM_ID) REFERENCES ROOM(ID)
 )
 
-INSERT INTO DEVICE(ID, TYPE, SERIAL_NO, VENDOR, STATUS, LAST_SEEN_ST, ROOM_ID) VALUES (1, 'Smart Lock', 'SL-LL-6767ABC', 'Lock n Lock', 'Active', '2026-02-24 13:45:39', 1)
-INSERT INTO DEVICE(ID, TYPE, SERIAL_NO, VENDOR, STATUS, LAST_SEEN_ST, ROOM_ID) VALUES (2, 'Door Sensor', 'DS-LL-1234ABC', 'Lock n Lock', 'Active', '2026-02-24 06:32:22', 1)
-INSERT INTO DEVICE(ID, TYPE, SERIAL_NO, VENDOR, STATUS, LAST_SEEN_ST, ROOM_ID) VALUES (3, 'Smart Light', 'SL-DQ-QD6767', 'Dien Quang', 'Inactive', '2026-02-24 04:28:05', 3)
+INSERT INTO DEVICE(TYPE, SERIAL_NO, VENDOR, STATUS, LAST_SEEN_ST, ROOM_ID) VALUES
+('Smart Lock', 'SL-LL-6767ABC', 'Lock n Lock', 'Active', '2026-02-24 13:45:39', 2),
+('Door Sensor', 'DS-LL-1234ABC', 'Lock n Lock', 'Active', '2026-02-24 06:32:22', 3),
+('Smart Light', 'SL-DQ-QD6767', 'Dien Quang', 'Inactive', '2026-02-24 04:28:05', 4);
 
 CREATE TABLE ALERT (
-  ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
+   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
    TYPE NVARCHAR(50),
    SEVERITY NVARCHAR(50),
    STATUS NVARCHAR(20),
@@ -99,8 +101,9 @@ CREATE TABLE ALERT (
    CONSTRAINT FK_ROOM_ALERT FOREIGN KEY (ROOM_ID) REFERENCES ROOM(ID),
 )
 
-INSERT INTO ALERT (ID, TYPE, SEVERITY , STATUS, START_TS, END_TS, MESSAGE, CREATE_AT, USER_ID, HOME_ID, DEVICE_ID, ROOM_ID) VALUES (1, 'Security', 'High', 'Open', '2026-02-24 04:18:02','2026-02-24 04:18:02','Canh bao: Phat hien cua mo trai phep trong che do Night', 1, 1, 2, 3)
-INSERT INTO ALERT (ID, TYPE, SEVERITY , STATUS, START_TS, END_TS, MESSAGE, CREATE_AT, USER_ID, HOME_ID, DEVICE_ID, ROOM_ID) VALUES (2, 'Security', 'High', 'Lock', '2026-02-24 04:10:23','2026-02-24 04:16:57','Canh bao: Thu mo hoa that bai nhieu lan')
+INSERT INTO ALERT (TYPE, SEVERITY , STATUS, START_TS, END_TS, MESSAGE, CREATE_AT, USER_ID, HOME_ID, DEVICE_ID, ROOM_ID) VALUES
+('Security', 'High', 'Open', '2026-02-24 04:18:02','2026-02-24 04:18:02','Canh bao: Phat hien cua mo trai phep trong che do Night', GETDATE(), 1, 5, 3, 3),
+('Security', 'High', 'Lock', '2026-02-24 04:10:23','2026-02-24 04:16:57','Canh bao: Thu mo hoa that bai nhieu lan', GETDATE() , 1, 5, 3, 3);
 
 CREATE TABLE RULES (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -118,23 +121,23 @@ CREATE TABLE RULES (
 )
 
 INSERT INTO RULES (HOME_ID, NAME, TRIGGER_TYPE, CONDITION_JSON, ACTION_JSON, PRIORITY, ACTIVE, CREATED_AT) VALUES 
-  (1, N'Door left open', 'Duration', 
+  (5, N'Door left open', 'Duration', 
      N'{"event_type": "DoorOpen", "duration_minutes": 15}', 
      N'{"alert_type": "Security", "severity": "Medium", "message": "Door left opened more than 15 minutes"}', 
      2, 1, GETDATE()),
-  (1, N'Door open in Away/Night', 'ModeViolation', 
+  (5, N'Door open in Away/Night', 'ModeViolation', 
      N'{"event_type": "DoorOpen", "forbidden_modes": ["Away", "Night"]}', 
      N'{"alert_type": "Security", "severity": "High", "message": "Door opened at night or away"}', 
      1, 1, GETDATE()),
-  (1, N'Light on too long', 'Duration', 
+  (5, N'Light on too long', 'Duration', 
      N'{"event_type": "LightOn", "duration_minutes": 120}', 
      N'{"alert_type": "Operation", "severity": "Low", "message": "Light on for more than 2 hours"}', 
      3, 1, GETDATE()),
-  (1, N'Device disconnected', 'HealthCheck', 
+  (5, N'Device disconnected', 'HealthCheck', 
      N'{"max_offline_minutes": 60}', 
      N'{"alert_type": "Operation", "severity": "Medium", "message": "Device unsignal for more than an hour"}', 
      2, 1, GETDATE()),
-  (1, N'Repeated unlock failures', 'Frequency', 
+  (5, N'Repeated unlock failures', 'Frequency', 
      N'{"event_type": "UnlockFailed", "count_threshold": 3, "time_window_minutes": 5}', 
      N'{"alert_type": "Security", "severity": "High", "message": "Detected multiple failed unlock attempts"}', 
      1, 1, GETDATE());
@@ -153,12 +156,12 @@ CREATE TABLE EVENTLOG (
 )
 
 INSERT INTO EVENTLOG (DEVICE_ID, TYPE, VALUE, TS, USER_ID, SOURCE, CREATE_AT) VALUES
-  (1, 'DoorOpen', NULL, '2023-10-26 07:30:00', NULL, 'Sensor', GETDATE()),
-  (1, 'DoorClose', NULL, '2023-10-26 07:35:00', NULL, 'Sensor', GETDATE()),
-  (2, 'LightOn', 'Brightness: 100%', '2023-10-26 18:00:00', 2, 'Manual', GETDATE()),
-  (3, 'Heartbeat', 'Battery: 85%', '2023-10-26 18:15:00', NULL, 'Sensor', GETDATE()),
-  (3, 'Unlock', 'Failed - Wrong PIN', '2023-10-26 22:30:00', NULL, 'Sensor', GETDATE()),
-  (2, 'LightOff', NULL, '2023-10-26 23:00:00', NULL, 'Schedule', GETDATE());
+  (3, 'DoorOpen', NULL, '2023-10-26 07:30:00', NULL, 'Sensor', GETDATE()),
+  (3, 'DoorClose', NULL, '2023-10-26 07:35:00', NULL, 'Sensor', GETDATE()),
+  (4, 'LightOn', 'Brightness: 100%', '2023-10-26 18:00:00', 2, 'Manual', GETDATE()),
+  (4, 'Heartbeat', 'Battery: 85%', '2023-10-26 18:15:00', NULL, 'Sensor', GETDATE()),
+  (5, 'Unlock', 'Failed - Wrong PIN', '2023-10-26 22:30:00', NULL, 'Sensor', GETDATE()),
+  (4, 'LightOff', NULL, '2023-10-26 23:00:00', NULL, 'Schedule', GETDATE());
 
 CREATE TABLE ALERTACTION (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
