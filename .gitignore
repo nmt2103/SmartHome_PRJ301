@@ -5,3 +5,21 @@
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 /~$nalProject-Smart-home-door-light.docx
+/SmartHome/nbproject/private/
+
+# Bo qua thu muc build cua Java
+target/
+out/
+build/
+*.class
+
+# Bo qua cau hinh IDE ca nhan
+.idea/
+*.iml
+.metadata/
+.settings/
+.classpath
+.project
+
+# Bo qua cac file log va thu muc Tomcat local
+*.log
