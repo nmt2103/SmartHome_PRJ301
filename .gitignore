@@ -23,3 +23,4 @@ build/
 
 # Bo qua cac file log va thu muc Tomcat local
 *.log
+/SmartHome/dist/
