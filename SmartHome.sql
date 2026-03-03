@@ -50,7 +50,6 @@ INSERT INTO HOMEMODE (NAME, ACTIVE_FROM, ACTIVE_TO, IS_ACTIVE, HOME_ID) VALUES
 (N'Sleep Mode', '23:00:00', '07:00:00', 1, 4),
 (N'Party Mode', '18:00:00', '23:59:00', 1, 4);
 
-
 CREATE TABLE ROOM (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
   NAME NVARCHAR(100),
@@ -66,7 +65,6 @@ INSERT INTO ROOM(NAME, FLOOR, TYPE, STATUS, HOME_ID) VALUES
 ('Phong Ngu', 1, 'BedRoom', 'Ngung Hoat Dong', 1),
 ('Phong Khach', 0, 'Living Room', 'Dang Hoat Dong', 2), 
 ('Phong An', 0, 'Kitchen', 'Ngung Hoat Dong', 4);
-
 
 CREATE TABLE DEVICE (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
@@ -107,7 +105,6 @@ INSERT INTO ALERT (TYPE, SEVERITY , STATUS, START_TS, END_TS, MESSAGE, CREATE_AT
 ('Security', 'High', 'Open', '2026-02-24 04:18:02','2026-02-24 04:18:02','Canh bao: Phat hien cua mo trai phep trong che do Night', GETDATE(), 1, 1, 1, 3),
 ('Security', 'High', 'Lock', '2026-02-24 04:10:23','2026-02-24 04:16:57','Canh bao: Thu mo hoa that bai nhieu lan', GETDATE() , 1, 1, 2, 3);
 
-
 CREATE TABLE RULES (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
   NAME NVARCHAR(100),
@@ -123,24 +120,24 @@ CREATE TABLE RULES (
   CONSTRAINT FK_ALERT_RULE FOREIGN KEY (ALERT_ID) REFERENCES ALERT(ID),
 )
 
-INSERT INTO RULES (HOME_ID, NAME, TRIGGER_TYPE, CONDITION_JSON, ACTION_JSON, PRIORITY, ACTIVE, CREATED_AT) VALUES 
-  (1, N'Door left open', 'Duration', 
+INSERT INTO RULES (HOME_ID, ALERT_ID, NAME, TRIGGER_TYPE, CONDITION_JSON, ACTION_JSON, PRIORITY, ACTIVE, CREATED_AT) VALUES 
+  (1, 1, N'Door left open', 'Duration', 
      N'{"event_type": "DoorOpen", "duration_minutes": 15}', 
      N'{"alert_type": "Security", "severity": "Medium", "message": "Door left opened more than 15 minutes"}', 
      2, 1, GETDATE()),
-  (1, N'Door open in Away/Night', 'ModeViolation', 
+  (1, 1, N'Door open in Away/Night', 'ModeViolation', 
      N'{"event_type": "DoorOpen", "forbidden_modes": ["Away", "Night"]}', 
      N'{"alert_type": "Security", "severity": "High", "message": "Door opened at night or away"}', 
      1, 1, GETDATE()),
-  (1, N'Light on too long', 'Duration', 
+  (1, 2, N'Light on too long', 'Duration', 
      N'{"event_type": "LightOn", "duration_minutes": 120}', 
      N'{"alert_type": "Operation", "severity": "Low", "message": "Light on for more than 2 hours"}', 
      3, 1, GETDATE()),
-  (1, N'Device disconnected', 'HealthCheck', 
+  (1, 2, N'Device disconnected', 'HealthCheck', 
      N'{"max_offline_minutes": 60}', 
      N'{"alert_type": "Operation", "severity": "Medium", "message": "Device unsignal for more than an hour"}', 
      2, 1, GETDATE()),
-  (1, N'Repeated unlock failures', 'Frequency', 
+  (1, 1, N'Repeated unlock failures', 'Frequency', 
      N'{"event_type": "UnlockFailed", "count_threshold": 3, "time_window_minutes": 5}', 
      N'{"alert_type": "Security", "severity": "High", "message": "Detected multiple failed unlock attempts"}', 
      1, 1, GETDATE());
@@ -165,7 +162,6 @@ INSERT INTO EVENTLOG (DEVICE_ID, TYPE, VALUE, TS, USER_ID, SOURCE, CREATE_AT) VA
   (2, 'Heartbeat', 'Battery: 85%', '2023-10-26 18:15:00', NULL, 'Sensor', GETDATE()),
   (3, 'Unlock', 'Failed - Wrong PIN', '2023-10-26 22:30:00', NULL, 'Sensor', GETDATE()),
   (2, 'LightOff', NULL, '2023-10-26 23:00:00', NULL, 'Schedule', GETDATE());
-
 
 CREATE TABLE ALERTACTION (
   ID INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
